@@ -16,8 +16,7 @@ class App extends React.Component {
     }
   }
 
-  removeFromCart = (product) => {
-    console.log(product._id) 
+  removeFromCart = (product) => {   
     const cartItems = this.state.cartItems.slice()
     this.setState({
       cartItems: cartItems.filter((x) => x._id !== product._id)
@@ -42,8 +41,7 @@ class App extends React.Component {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
   }
   
-  filterProducts = (event) => {
-    
+  filterProducts = (event) => {    
      if (event.target.value === "") {
       this.setState({size: event.target.value, products: data.products})
     } else {
@@ -55,8 +53,7 @@ class App extends React.Component {
     }
 
   }
-  sortProducts = (event) => {
-    console.log(event.target.value)
+  sortProducts = (event) => {    
     const sort = event.target.value;
 
     this.setState((state) => ({
