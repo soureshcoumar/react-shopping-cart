@@ -4,8 +4,8 @@ import Fade from "react-reveal/Fade"
 import Zoom from "react-reveal/Zoom"
 import Modal from "react-modal"
 import { connect } from "react-redux"
-import * as actions from "../actions/productActions"
-import { bindActionCreators } from 'redux';
+import { fetchProducts } from "../actions/productActions"
+import { addToCart } from "../actions/cartActions"
 
 
 class Products extends Component {
@@ -26,7 +26,8 @@ class Products extends Component {
     }
     render() {
 
-        const {product} = this.state
+        const { product } = this.state
+        console.log(product)
         return (
             <div>
                 <Fade bottom cascade>
@@ -97,9 +98,10 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actions,dispatch)
-
-}
-
+const mapDispatchToProps = (dispatch) => ({
+    fetchProducts: () => dispatch(fetchProducts()),
+    addToCart: (product) => dispatch(addToCart(product))
+  
+});
+ 
 export default connect(mapStateToProps,mapDispatchToProps)(Products);
