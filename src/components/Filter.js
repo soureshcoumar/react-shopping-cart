@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux"
+import * as actions from "../actions/productActions"
+import { bindActionCreators } from 'redux';
 
 class Filter extends Component {
     render() {
         return (
-            <div className="filter">
-                <div className="filter-result">{this.props.count} Products</div>
+            !this.props.filteredProducts ? (
+                <div>Loading...</div>
+            ) : (
+                
+            <div div className = "filter" >
+                <div className="filter-result">{this.props.filteredProducts.length} Products</div>
                 <div className="filter-sort">Order{" "}
-                    <select value={this.props.sort} onChange={this.props.sortProducts}>
-                        <option value="">Latest</option>
+                    <select value={this.props.sort} onChange={(e) => this.props.sortProducts(this.props.filteredProducts, e.target.value)}>
+                        <option value="Latest">Latest</option>
                         <option value="Lowest">Lowest</option>
                         <option value="Highest">Highest</option>
 
                     </select>
                 </div>
                 <div className="filter-size">Filter{" "}
-                    <select value={this.props.size} onChange={this.props.filterProducts}>
+                    <select value={this.props.size} onChange={(e) => this.props.filterProducts(this.props.products, e.target.value)}>
                         <option value="">ALL</option>
                         <option value="XS">XS</option>
                         <option value="S">S</option>
@@ -25,8 +32,23 @@ class Filter extends Component {
                     </select>
                 </div>
             </div>
-        );
+        ));
     }
 }
 
-export default Filter;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        products: state.products.items,
+        size: state.products.size,
+        sort: state.products.sort,
+        filteredProducts: state.products.filteredItems,
+    }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(actions,dispatch)
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Filter);
