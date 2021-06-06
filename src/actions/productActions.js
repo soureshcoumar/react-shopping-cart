@@ -22,8 +22,7 @@ export const filterProducts = (products,size) => async (dispatch) => {
     })
 }
 
-export const sortProducts = (filterProducts, sort) => async (dispatch) => {
-    console.log("calling sort")
+export const sortProducts = (filterProducts, sort) => async (dispatch) => {    
     const sortedProducts = filterProducts.slice()
     if (sort === "Latest") {
         sortedProducts.sort((a,b) =>(a._id >b._id? 1:-1))

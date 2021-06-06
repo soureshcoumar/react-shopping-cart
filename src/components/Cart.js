@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import formatCurrency from '../utils';
 import Fade from "react-reveal/Fade"
+import { connect } from "react-redux"
+import * as actions from "../actions/cartActions"
+import { bindActionCreators } from 'redux';
 
 
 class Cart extends Component {
@@ -31,7 +34,8 @@ class Cart extends Component {
     }
 
     render() {
-        const {cartItems} = this.props;
+        const { cartItems } = this.props;
+        
         return (
             <div>
                 {cartItems.length === 0 ? (
@@ -113,4 +117,16 @@ class Cart extends Component {
     }
 }
 
-export default Cart;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        cartItems: state.cart.cartItems,       
+    }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(actions,dispatch)
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Cart);
