@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db')
 const mongoose = require('mongoose')
 const shortid = require('shortid')
+const path = require('path')
 
 const app = express();
 
@@ -12,8 +13,6 @@ app.use(express.json())
 
 //Connect DataBase
 connectDB()
-
-app.get('/', (req, res) => res.send('API Running'))
 
 const Product = mongoose.model('products', new mongoose.Schema({
     _id: {
@@ -91,6 +90,16 @@ app.delete("/api/orders/:id", async (req, res) => {
 });
     
 //Define Routes
+
+//Serve static assert in production
+if (process.env.NODE_ENV === 'production') {
+  //Set static folder
+  app.use(express.static('build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname,'build', 'index.html'))
+  })
+}
+
 
 
 const PORT = process.env.PORT || 5000;
